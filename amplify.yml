@@ -7,6 +7,7 @@ applications:
       phases:
         preBuild:
           commands:
+            # Install from the monorepo root so npm workspaces resolve.
             - cd ../..
             - npm install
 
@@ -15,11 +16,12 @@ applications:
             - npm run build --workspace=apps/web
 
       artifacts:
-        baseDirectory: apps/web/.next
+        # Paths here are relative to appRoot (apps/web), not the repo root.
+        baseDirectory: .next
         files:
           - "**/*"
 
       cache:
         paths:
-          - node_modules/**/*
-          - apps/web/.next/cache/**/*
+          - ../../node_modules/**/*
+          - .next/cache/**/*
