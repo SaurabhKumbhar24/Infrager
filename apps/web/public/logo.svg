@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="256" height="256" viewBox="0 0 256 256">
+  <g id="Group_5" data-name="Group 5" transform="translate(-176 -226)">
+    <rect id="Rectangle_1" data-name="Rectangle 1" width="256" height="256" rx="80" transform="translate(176 226)"/>
+    <rect id="Rectangle_7" data-name="Rectangle 7" width="87" height="25" rx="12.5" transform="translate(307 326) rotate(90)" fill="#222"/>
+    <rect id="Rectangle_9" data-name="Rectangle 9" width="78" height="25" rx="12.5" transform="translate(258 288)" fill="#222"/>
+    <rect id="Rectangle_2" data-name="Rectangle 2" width="78" height="25" rx="12.5" transform="translate(265 282)" fill="#fff"/>
+    <rect id="Rectangle_10" data-name="Rectangle 10" width="25" height="25" rx="12.5" transform="translate(374 428) rotate(90)" fill="#222"/>
+    <rect id="Rectangle_5" data-name="Rectangle 5" width="25" height="25" rx="12.5" transform="translate(376 425) rotate(90)" fill="#fff"/>
+    <rect id="Rectangle_11" data-name="Rectangle 11" width="12" height="12" rx="6" transform="translate(387 440) rotate(90)" fill="#222"/>
+    <rect id="Rectangle_6" data-name="Rectangle 6" width="12" height="12" rx="6" transform="translate(388 438) rotate(90)" fill="#fff"/>
+    <rect id="Rectangle_4" data-name="Rectangle 4" width="90" height="25" rx="12.5" transform="translate(316 317) rotate(90)" fill="#fff"/>
+    <rect id="Rectangle_14" data-name="Rectangle 14" width="78" height="25" rx="12.5" transform="translate(255 423)" fill="#222"/>
+    <rect id="Rectangle_15" data-name="Rectangle 15" width="78" height="25" rx="12.5" transform="translate(262 417)" fill="#fff"/>
+  </g>
+</svg>

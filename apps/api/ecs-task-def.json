@@ -1,0 +1,41 @@
+{
+  "family": "infrager-api",
+  "networkMode": "awsvpc",
+  "requiresCompatibilities": ["FARGATE"],
+  "cpu": "256",
+  "memory": "512",
+  "runtimePlatform": { "cpuArchitecture": "X86_64", "operatingSystemFamily": "LINUX" },
+  "executionRoleArn": "arn:aws:iam::383136686684:role/fluiqECSTaskExecutionRole",
+  "taskRoleArn": "arn:aws:iam::383136686684:role/fluiqECSTaskRole",
+  "containerDefinitions": [
+    {
+      "name": "infrager-api",
+      "image": "383136686684.dkr.ecr.us-east-2.amazonaws.com/infrager-api:latest",
+      "essential": true,
+      "portMappings": [{ "containerPort": 4000, "protocol": "tcp" }],
+      "environment": [
+        { "name": "PORT", "value": "4000" },
+        { "name": "PGSSL", "value": "require" },
+        { "name": "CORS_ORIGINS", "value": "https://infrager.getfluiq.com" }
+      ],
+      "secrets": [
+        {
+          "name": "DATABASE_URL",
+          "valueFrom": "arn:aws:ssm:us-east-2:383136686684:parameter/infrager/prod/DATABASE_URL"
+        },
+        {
+          "name": "AUTH_SECRET",
+          "valueFrom": "arn:aws:ssm:us-east-2:383136686684:parameter/infrager/prod/AUTH_SECRET"
+        }
+      ],
+      "logConfiguration": {
+        "logDriver": "awslogs",
+        "options": {
+          "awslogs-group": "/ecs/infrager-api",
+          "awslogs-region": "us-east-2",
+          "awslogs-stream-prefix": "ecs"
+        }
+      }
+    }
+  ]
+}

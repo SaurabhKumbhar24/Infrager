@@ -1,0 +1,137 @@
+@import "tailwindcss";
+
+/* Class-based dark mode (html.dark), same mechanism as fluiq-frontend. */
+@custom-variant dark (&:where(.dark, .dark *));
+
+/* FluiqAI design system tokens (see source/DESIGN.md): warm-paper bench,
+   ink type, one cobalt signal. Every component styles against these semantic
+   tokens, so the theme flips entirely here — light and dark never mix on a
+   page (Locked Theme Rule). */
+:root {
+  color-scheme: light;
+  --paper: #faf9f6;
+  --ink: #0a0a0a;
+  --sand: #f2f0e9;
+  --tint: #f7f6f1;
+  --sandstone: #e5e1d6;
+  --sandstone-deep: #d4cfc1;
+  --muted: #6b6b66;
+  --cobalt: #1860d3;
+  --signal-green: #2d7a4f;
+  --signal-amber: #b85c2b;
+  --destructive: #c92c2c;
+  --night: #1a1a1a;
+  --rf-mask: rgba(250, 249, 246, 0.75);
+}
+
+.dark {
+  color-scheme: dark;
+  --paper: #0a0a0a; /* body/card bg = true off-black */
+  --ink: #faf9f6; /* text = warm paper */
+  --sand: #1a1a1a; /* surface night */
+  --tint: #141414;
+  --sandstone: #2a2a2a; /* raised night: borders/dividers */
+  --sandstone-deep: #3a3a3a;
+  --muted: #9a9a92; /* muted night */
+  --cobalt: #6fa8ff; /* cobalt bright */
+  --signal-green: #4ade80;
+  --signal-amber: #fb923c;
+  --destructive: #f87171;
+  --night: #e8e6e0; /* hover shade for the inverted primary button */
+  --rf-mask: rgba(10, 10, 10, 0.75);
+}
+
+@theme inline {
+  --color-paper: var(--paper);
+  --color-ink: var(--ink);
+  --color-sand: var(--sand);
+  --color-tint: var(--tint);
+  --color-sandstone: var(--sandstone);
+  --color-sandstone-deep: var(--sandstone-deep);
+  --color-muted: var(--muted);
+  --color-cobalt: var(--cobalt);
+  --color-signal-green: var(--signal-green);
+  --color-signal-amber: var(--signal-amber);
+  --color-destructive: var(--destructive);
+  --color-night: var(--night);
+
+  --font-sans: var(--font-figtree), sans-serif;
+  --font-mono: var(--font-jetbrains), "Courier New", monospace;
+
+  --radius-lg: 10px;
+  --radius-xl: 14px;
+  --radius-2xl: 18px;
+}
+
+body {
+  background: var(--color-paper);
+  color: var(--color-ink);
+  font-family: var(--font-sans);
+  font-size: 0.9375rem;
+  line-height: 1.7;
+}
+
+/* Small uppercase tracked label (used sparingly). */
+.label {
+  font-family: var(--font-mono);
+  font-size: 0.6875rem;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+/* Data numerals and code: JetBrains Mono (Measurement Rule). */
+.mono {
+  font-family: var(--font-mono);
+  font-variant-numeric: tabular-nums;
+}
+
+/* React Flow overrides: styled via the same tokens, so they follow the theme. */
+.react-flow__attribution {
+  background: transparent;
+}
+.react-flow__edge-path {
+  stroke: var(--color-sandstone-deep);
+  stroke-width: 1.5;
+}
+.react-flow__edge.selected .react-flow__edge-path {
+  stroke: var(--color-cobalt);
+}
+.react-flow__edge-textbg {
+  fill: var(--color-paper);
+}
+.react-flow__edge-text {
+  fill: var(--color-muted);
+  font-family: var(--font-mono);
+  font-size: 10px;
+}
+.react-flow__handle {
+  width: 8px;
+  height: 8px;
+  background: var(--color-sandstone-deep);
+  border: 1.5px solid var(--color-paper);
+}
+.react-flow__handle:hover,
+.react-flow__handle.connectionindicator:hover {
+  background: var(--color-cobalt);
+}
+.react-flow__controls {
+  border: 1px solid var(--color-sandstone);
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: none;
+}
+.react-flow__controls-button {
+  background: var(--color-paper);
+  border-bottom: 1px solid var(--color-sandstone);
+  color: var(--color-ink);
+}
+.react-flow__controls-button:hover {
+  background: var(--color-sand);
+}
+.react-flow__controls-button svg {
+  fill: currentColor;
+}
+.react-flow__minimap {
+  background: var(--color-paper);
+}

@@ -1,0 +1,6 @@
+
+# infrager
+/data
+.env
+.env.production
+.env.development

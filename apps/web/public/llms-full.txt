@@ -1,0 +1,47 @@
+# Infrager — full reference for LLMs
+
+> Infrager is a free, open-source web application that converts drag-and-drop cloud architecture diagrams into production-ready Terraform (HCL), with built-in security linting that evaluates the diagram live as the user draws. AWS and Google Cloud are supported today; the architecture is designed to add every cloud provider. Developed by the FluiqAI team (https://www.getfluiq.com). Source: https://github.com/SaurabhKumbhar24/Infrager (MIT).
+
+## What Infrager does
+
+1. Users sign up (free, no card) and get a workspace with projects, like Figma files.
+2. Each project is an infinite canvas (React Flow). Users drag cloud resources from a palette, connect them to express real relationships, and edit properties in an inspector panel.
+3. Infrager generates dependency-ordered Terraform continuously: a topologically sorted main.tf with provider blocks per cloud (aws and/or google), variables for secrets (RDS master password, ACM certificate ARN — secrets never live in the diagram), and explicit `# INFRAGER TODO` comments where the diagram is incomplete.
+4. A security lint engine runs on every change and shows findings on the canvas nodes (badges), in an Issues panel, and inside the inspector. Errors are real exposure; warnings are judgment calls or incomplete wiring.
+5. Diagrams autosave to the user's workspace (debounced, plus Ctrl/Cmd+S).
+
+## Resource model: two tiers
+
+- Rich (core) resources — full typed properties, bespoke Terraform emitters, security lint coverage: VPC, Subnet, Security Group, EC2 Instance, Application Load Balancer, RDS Instance, S3 Bucket, IAM Role/Policy (modeled as one node that expands into aws_iam_role + aws_iam_role_policy + aws_iam_instance_profile when assumed by EC2).
+- Catalog (generic) resources — 150+ AWS and GCP services (e.g. Lambda, ECS, EKS, DynamoDB, Aurora, ElastiCache, Redshift, OpenSearch, CloudFront, Route 53, SQS, SNS, EventBridge, Kinesis, MSK, KMS, Secrets Manager, WAF, Cognito, SageMaker, CodePipeline; GKE, Cloud Run, Cloud Functions, Cloud SQL, Spanner, Bigtable, Firestore, BigQuery, Dataproc, Pub/Sub, Cloud NAT, Cloud Armor, Cloud DNS, Vertex AI, and more). Each emits its canonical Terraform resource type with user-editable freeform attributes. Adding a service is one line in a catalog file; promoting a service to the rich tier adds typed properties and lint rules.
+
+## Relationships
+
+Typed edges validated at connection time: in_vpc (subnet/SG → VPC), in_subnet (EC2/ALB/RDS → subnet), uses_security_group (EC2/ALB/RDS → SG), assumes_role (EC2 → IAM role), targets (ALB → EC2). Edge direction always means "source references target", matching Terraform reference direction, so dependency ordering falls out of a topological sort. Any other pair of nodes can be connected as an explicit Terraform depends_on.
+
+## Security lint rules (v1)
+
+- open-security-group: ingress from 0.0.0.0/0 or ::/0. Error on sensitive ports (SSH 22, RDP 3389, MySQL 3306, PostgreSQL 5432, SQL Server 1433, MongoDB 27017, Redis 6379, Elasticsearch 9200) or all-ports rules; warning otherwise.
+- public-s3-bucket: bucket without a full public access block (error).
+- unencrypted-storage: RDS without storage encryption, S3 without SSE (error).
+- wildcard-iam: Allow statements with Action "*" and/or Resource "*" (both = full admin, error; either = warning).
+- public-rds-instance: publicly accessible database (error).
+- missing-network-association: subnet/SG without a VPC, EC2/RDS/ALB without a subnet, ALB with fewer than two subnets (warning; codegen emits a TODO for the same gap).
+- unconfigured-service: catalog resource with no attributes yet (warning).
+
+Defaults are secure: new resources start encrypted, private, and closed; lint fires when a user opts into risk.
+
+## Architecture (for contributors)
+
+Monorepo (npm workspaces):
+- apps/web — Next.js App Router + TypeScript + Tailwind. All codegen and linting run client-side over a typed intermediate representation (IR) that is independent of both the canvas library and Terraform syntax: lib/ir (schema: discriminated-union nodes, typed edges, relationship rules), lib/catalog (per-provider service catalogs), lib/codegen (template-per-resource emitters + generic emitter + topological ordering), lib/lint (pure predicate rules over the IR), lib/editor (React Flow ↔ IR serialization).
+- apps/api — Express + TypeScript backend: JWT Bearer-token auth (no cookies), bcrypt password hashing, PostgreSQL persistence (users, projects with the diagram document as JSONB). REST endpoints under /api/auth and /api/projects.
+
+## Facts
+
+- Pricing: free. Open source under the MIT license.
+- Providers: AWS and Google Cloud today; more planned (Azure next).
+- Generation is one-way (diagram → Terraform) in v1.
+- Website: https://infrager.getfluiq.com
+- Repository: https://github.com/SaurabhKumbhar24/Infrager
+- Built by: FluiqAI (https://www.getfluiq.com)

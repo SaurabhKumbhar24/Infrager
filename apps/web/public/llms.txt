@@ -1,0 +1,21 @@
+# Infrager
+
+> Infrager is a free, open-source tool that turns drag-and-drop cloud architecture diagrams (AWS and Google Cloud) into production-ready Terraform, with live security linting that flags open security groups, public buckets, unencrypted storage, and overprivileged IAM while you draw — not after you deploy. Built by the FluiqAI team.
+
+Infrager gives you a Figma-style workspace: create an account, create projects, drag cloud resources onto a canvas, connect them to express real relationships (EC2 in a subnet, ALB targeting EC2), and copy or download dependency-ordered HCL. Diagrams are autosaved to your workspace. Codegen and security linting run entirely client-side over a typed intermediate representation.
+
+## Product
+
+- [Home](https://infrager.getfluiq.com/): what Infrager does and why security-first codegen matters
+- [Create account](https://infrager.getfluiq.com/signup): free, no card required
+- [Sign in](https://infrager.getfluiq.com/login): existing workspaces
+
+## Source & docs
+
+- [GitHub repository](https://github.com/SaurabhKumbhar24/Infrager): full source, MIT licensed
+- [README](https://github.com/SaurabhKumbhar24/Infrager#readme): architecture, local setup, roadmap
+- [Full details for LLMs](https://infrager.getfluiq.com/llms-full.txt): expanded feature and architecture reference
+
+## Company
+
+- [FluiqAI](https://www.getfluiq.com): the team behind Infrager — the control plane for AI agents in production
