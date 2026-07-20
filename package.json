@@ -1,16 +1,22 @@
 {
   "name": "infrager",
   "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
+  "description": "Drag-and-drop cloud architecture diagrams to production-ready Terraform, with built-in security linting.",
+  "private": true,
+  "workspaces": [
+    "apps/*"
+  ],
   "scripts": {
+    "dev": "concurrently -n api,web -c blue,green \"npm run dev:api\" \"npm run dev:web\"",
     "dev:web": "npm --workspace apps/web run dev",
     "dev:api": "npm --workspace apps/api run dev",
     "build:web": "npm --workspace apps/web run build",
-    "build:api": "npm --workspace apps/api run build"
+    "build:api": "npm --workspace apps/api run build",
+    "lint": "npm --workspace apps/web run lint",
+    "format": "npm --workspace apps/web run format"
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
-  "type": "commonjs"
+  "license": "MIT",
+  "devDependencies": {
+    "concurrently": "^10.0.3"
+  }
 }
